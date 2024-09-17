@@ -3,13 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/swp/OnlineMarketPlace/src/java/model/Customer.java</file>
-            <file>file:/D:/swp/OnlineMarketPlace/src/java/model/Seller.java</file>
-            <file>file:/D:/swp/OnlineMarketPlace/src/java/model/OrderDetail.java</file>
-            <file>file:/D:/swp/OnlineMarketPlace/src/java/model/Feedback.java</file>
-            <file>file:/D:/swp/OnlineMarketPlace/src/java/model/Role.java</file>
-            <file>file:/D:/swp/OnlineMarketPlace/src/java/model/Payments.java</file>
-            <file>file:/D:/swp/OnlineMarketPlace/src/java/model/Shipping.java</file>
+            <file>file:/E:/SWP/SWP391_Group5_SE1868_NJ_OnlineMarketPlace/web/login.html</file>
+            <file>file:/E:/SWP/SWP391_Group5_SE1868_NJ_OnlineMarketPlace/src/java/model/Customer.java</file>
+            <file>file:/E:/SWP/SWP391_Group5_SE1868_NJ_OnlineMarketPlace/web/index.html</file>
+            <file>file:/E:/SWP/SWP391_Group5_SE1868_NJ_OnlineMarketPlace/src/java/context/DBContext.java</file>
+            <file>file:/E:/SWP/SWP391_Group5_SE1868_NJ_OnlineMarketPlace/src/java/model/Account.java</file>
         </group>
     </open-files>
 </project-private>
