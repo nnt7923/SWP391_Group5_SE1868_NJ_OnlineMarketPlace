@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 public class DBContext {
 
-    Connection conn = null;
+    public Connection conn = null;
     // Connection
 
     public DBContext(String URL, String userName, String password) {
