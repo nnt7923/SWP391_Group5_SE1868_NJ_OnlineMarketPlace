@@ -150,3 +150,19 @@ ADD OrderID INT;
 
 ALTER TABLE Cart
 ADD CONSTRAINT FK_Cart_Orders FOREIGN KEY (OrderID) REFERENCES Orders(id);
+
+-- update database role, account
+
+INSERT INTO Role (roleName)
+VALUES 
+('admin'),
+('seller'),
+('customer'),
+('shipper');
+
+INSERT INTO Account (username, password, email, phone, address, roleID, status)
+VALUES 
+('admin', '123', 'admin@gmail.com', '1234567890', 'a', 1, 'active'),  -- Admin
+('seller', '123', 'seller@gmail.com', '1234567891', 'b', 2, 'active'),   -- Seller
+('customer', '123', 'customer@gmail.com', '1234567892', 'c', 3, 'active'), -- Customer
+('shipper', '123', 'shipper@gmail.com', '1234567893', 'd', 4, 'active'); -- Shipper
