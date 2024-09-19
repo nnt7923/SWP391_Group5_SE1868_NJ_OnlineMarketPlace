@@ -10,31 +10,18 @@ import java.util.logging.Logger;
 
 public class DBContext {
 
-    public Connection conn = null;
-    // Connection
-
-    public DBContext(String URL, String userName, String password) {
-        try {
-            //driver
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            //connect
-            conn = DriverManager.getConnection(URL, userName, password);
-            System.out.println("Connected");
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
+    public Connection connection;
+    public static final String SOFT_DELETE_CONDITION = "deleted_at IS NULL";
 
     public DBContext() {
-        this("jdbc:sqlserver://localhost:1433;databaseName=MarketPlace",
-                "sa","sa");
-
+        try {
+            String url = "jdbc:sqlserver://localhost:1433;databaseName= online_marketplace";
+            String username = "khanhduy583";
+            String password = "sa";
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connection = DriverManager.getConnection(url, username, password);
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println(ex);
+        }
     }
-
-    public static void main(String[] args) {
-        new DBContext();
-    }
-
 }

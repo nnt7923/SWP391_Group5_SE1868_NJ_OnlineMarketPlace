@@ -1,3 +1,5 @@
+create database [online_marketplace]
+
 -- Step 1: Create the Brand table
 CREATE TABLE Brand (
     brand_id INT PRIMARY KEY IDENTITY(1,1),
