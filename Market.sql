@@ -1,4 +1,14 @@
 
+create database [online_marketplace]
+
+-- Step 1: Create the Brand table
+CREATE TABLE Brand (
+    brand_id INT PRIMARY KEY IDENTITY(1,1),
+    brandName NVARCHAR(100) NOT NULL
+);
+
+
+
 /****** Object:  Table [dbo].[Account]    Script Date: 20/09/2024 9:56:36 CH ******/
 SET ANSI_NULLS ON
 GO
