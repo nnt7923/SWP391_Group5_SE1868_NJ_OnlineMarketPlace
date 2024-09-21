@@ -2,7 +2,6 @@
 // * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
 // * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
 // */
-
 package dao;
 
 import context.DBContext;
@@ -10,7 +9,6 @@ import model.Account;
 import java.sql.*;
 
 public class AccountDAO extends DBContext {
-
 
     public Account login(String username, String password) {
         String sql = "SELECT * FROM Account WHERE username = ? AND password = ?";
@@ -21,35 +19,28 @@ public class AccountDAO extends DBContext {
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return new Account(rs.getInt("id"), rs.getString("username"),
-                        rs.getString("password"), rs.getString("email"),
-                        rs.getString("phone"), rs.getString("address"),
-                        rs.getInt("roleID"), rs.getString("status"));
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
-    
-    private boolean register(Account account) throws SQLException {
-       String sql = "INSERT INTO Account (role_id, department_id, code, full_name, gender, date_of_birth, phone_number, email, address, status) VALUES (?, ?, ?, ?, ?,?, ?,?, ?,?)";
+
+    public boolean register(Account account) throws SQLException {
+        String sql = "INSERT INTO Account (username,email, password, roleID) VALUES (?,?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-//            statement.setInt(1, account.getRole().getId());
-//            statement.setInt(2, account.getDepartment().getId());
-//            statement.setString(3, account.getCode());
-//            statement.setString(4, account.getFullName());
-//            statement.setBoolean(5, account.getGender().getId());
-//             statement.setDate(6, account.getDateOfBirth());
-//             statement.setString(7, account.getPhoneNumber());
-//             statement.setString(8, account.getEmail());
-//             statement.setString(9, account.getAddress());
-//             statement.setBoolean(10, account.getStatus().getId());
+
+            statement.setString(1, account.getUsername());
+            statement.setString(2, account.getEmail());
+            statement.setString(3, account.getPassword());
+            statement.setInt(4, account.getRole().getId());
             int affectedRows = statement.executeUpdate();
             return affectedRows > 0;
-        }catch(Exception e){
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }
-    
+
 }

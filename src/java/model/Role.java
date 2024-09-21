@@ -1,10 +1,15 @@
 package model;
 
 public class Role {
+
     private int id;
     private String roleName;
 
     public Role() {
+    }
+
+    public Role(int id) {
+        this.id = id;
     }
 
     public Role(int id, String roleName) {
@@ -28,5 +33,4 @@ public class Role {
         this.roleName = roleName;
     }
 
-    
 }

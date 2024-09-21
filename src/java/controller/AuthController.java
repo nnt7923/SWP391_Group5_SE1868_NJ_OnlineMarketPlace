@@ -4,6 +4,9 @@
  */
 package controller;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
+import dao.AccountDAO;
+import dao.RoleDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,6 +14,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.Account;
+import model.Role;
 
 /**
  *
@@ -31,6 +42,16 @@ public class AuthController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private AccountDAO accountDAO;
+
+    private RoleDAO roleDAO;
+
+    @Override
+    public void init() throws ServletException {
+        roleDAO = new RoleDAO();
+        accountDAO = new AccountDAO();
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -60,13 +81,30 @@ public class AuthController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String path = request.getServletPath();
-        switch (path) {
-            case "/login" -> request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
-            case "/register" -> request.getRequestDispatcher("/WEB-INF/jsp/register.jsp").forward(request, response);
-            default -> request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
+        try {
+            String path = request.getServletPath();
+            switch (path) {
+                case "/login" ->
+                    request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
+                case "/register" ->
+                    showStoreForm(request, response);
+                default ->
+                    request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
+            }
+            request.getRequestDispatcher("/WEB-INF/jsp/register.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(AuthController.class.getName()).log(Level.SEVERE, null, ex);
         }
- request.getRequestDispatcher("/WEB-INF/jsp/register.jsp").forward(request, response);
+    }
+
+    private void showStoreForm(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, ServletException, IOException {
+
+        List<Role> roles = roleDAO.getAll();
+        request.setAttribute("roles", roles);
+
+        request.getRequestDispatcher("/WEB-INF/jsp/register.jsp").forward(request, response);
+
     }
 
     /**
@@ -80,7 +118,18 @@ public class AuthController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String path = request.getServletPath();
+        try {
+            switch (path) {
+                case "/register":
+                    register(request, response);
+                    break;
+            }
+        } catch (SQLServerException e) {
+            throw new ServletException(e);
+        } catch (SQLException ex) {
+            Logger.getLogger(AuthController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 //    protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -110,4 +159,35 @@ public class AuthController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    private void register(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException {
+        HttpSession session = request.getSession();
+
+        String routeContext = "/register";
+
+        String username = request.getParameter("username");
+
+        String email = request.getParameter("email");
+
+        String password = request.getParameter("password");
+
+        String re_password = request.getParameter("re_password");
+
+        String role = request.getParameter("role");
+
+        if (role == null || email == null || password == null || username == null) {
+            session.setAttribute("error", "Invalid data.");
+        } else if (!password.equals(re_password)) {
+            session.setAttribute("error", "Invalid password.");
+        } else {
+            Account account = new Account(username, email, password, new Role(Integer.parseInt(role)));
+
+            if (accountDAO.register(account)) {
+                session.setAttribute("message", "Tạo tài khoản thành công.");
+            } else {
+                session.setAttribute("error", "Failed to save account.");
+            }
+        }
+        response.sendRedirect(request.getContextPath() + routeContext);
+    }
 }
