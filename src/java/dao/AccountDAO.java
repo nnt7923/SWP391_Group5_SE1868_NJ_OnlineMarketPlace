@@ -38,7 +38,24 @@ public class AccountDAO extends DBContext {
         return null;
     }
 
-    
+    public int resetPassword(String newPassword, String email) {
+
+        String sql = "update Account set password = ?\n"
+                + "  where email = ?";
+        
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setString(1, newPassword);
+            pre.setString(2, email);
+            
+            return pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return -1;
+    }
+
     // Liệt kê tất cả tài khoản
     public List<Account> listAll() {
         List<Account> accounts = new ArrayList<>();
@@ -66,7 +83,7 @@ public class AccountDAO extends DBContext {
     // Thêm tài khoản mới
     public boolean add(Account account) {
         String query = "INSERT INTO Account (username, password, email, phone, address, roleId, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try ( PreparedStatement ps = conn.prepareStatement(query)) {
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, account.getUsername());
             ps.setString(2, account.getPassword());
             ps.setString(3, account.getEmail());
@@ -93,28 +110,10 @@ public class AccountDAO extends DBContext {
         return false;
     }
 
-    public int resetPassword(String newPassword, String email) {
-
-        String sql = "update Account set password = ?\n"
-                + "  where email = ?";
-        
-        try {
-            PreparedStatement pre = conn.prepareStatement(sql);
-            pre.setString(1, newPassword);
-            pre.setString(2, email);
-            
-            return pre.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return -1;
-    }
-    
     // Cập nhật tài khoản
     public boolean update(Account account) {
         String query = "UPDATE Account SET username = ?, password = ?, email = ?, phone = ?, address = ?, roleID = ?, status = ? WHERE account_id = ?";
-        try ( PreparedStatement ps = conn.prepareStatement(query)) {
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, account.getUsername());
             ps.setString(2, account.getPassword());
             ps.setString(3, account.getEmail());
@@ -134,7 +133,7 @@ public class AccountDAO extends DBContext {
     public List<Account> search(String keyword) {
         List<Account> accounts = new ArrayList<>();
         String query = "SELECT * FROM Account WHERE username LIKE ?";
-        try ( PreparedStatement ps = conn.prepareStatement(query)) {
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, "%" + keyword + "%");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -158,7 +157,7 @@ public class AccountDAO extends DBContext {
     // Lấy tài khoản theo id
     public Account getAccountById(int id) {
         String query = "SELECT * FROM Account WHERE account_id = ?";
-        try ( PreparedStatement ps = conn.prepareStatement(query)) {
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -180,7 +179,7 @@ public class AccountDAO extends DBContext {
 
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
-        boolean  list = dao.add(new Account("wjbunhi", "12345", "wjbunhi@gmail.com", "123456789", "ha noi", 1, "active"));
-        System.out.println(list);
+        Account account = dao.login("quocphongoccho3@gmail.com", "123456789");
+        System.out.println(account.getAddress());
     }
 }

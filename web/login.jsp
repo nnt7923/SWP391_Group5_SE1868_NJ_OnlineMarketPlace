@@ -136,12 +136,12 @@
 
         <%
             // Xử lý logic đăng nhập
-            String username = request.getParameter("username");
+            String email = request.getParameter("email");
             String password = request.getParameter("password");
 
-            if (username != null && password != null) {
+            if (email != null && password != null) {
                 AccountDAO accountDAO = new AccountDAO();
-                Account account = accountDAO.login(username, password);
+                Account account = accountDAO.login(email, password);
 
                 if (account != null) {
                     // Lưu thông tin đăng nhập vào session
@@ -154,7 +154,7 @@
                             response.sendRedirect("admin/dashboard.jsp");
                             break;
                         case 2: // Seller
-                            response.sendRedirect("seller/d ashboard.jsp");
+                            response.sendRedirect("seller/dashboard.jsp");
                             break;
                         case 3: // Customer
                             response.sendRedirect("customer/homeCustomer.jsp");
