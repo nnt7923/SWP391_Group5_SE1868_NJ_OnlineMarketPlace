@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Account;
 import model.Role;
+import utils.PasswordValidator;
 
 /**
  *
@@ -177,6 +178,8 @@ public class AuthController extends HttpServlet {
 
         if (role == null || email == null || password == null || username == null) {
             session.setAttribute("error", "Invalid data.");
+        } else if (!PasswordValidator.isValidPassword(password)) {
+            session.setAttribute("message", "Mật khẩu không hợp lệ. Mật khẩu phải có ít nhất 8 ký tự, bao gồm ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt.");
         } else if (!password.equals(re_password)) {
             session.setAttribute("error", "Invalid password.");
         } else {
