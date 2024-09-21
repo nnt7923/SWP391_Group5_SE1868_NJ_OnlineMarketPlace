@@ -21,16 +21,16 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
+        String email = request.getParameter("email");
         String password = request.getParameter("password");
 
         AccountDAO dao = new AccountDAO();
-        Account account = dao.login(username, password);
+        Account account = dao.login(email, password);
 
         if (account != null) {
             HttpSession session = request.getSession();
             session.setAttribute("account", account);
-            response.sendRedirect("index.html");  // Chuyển hướng khi đăng nhập thành công
+            response.sendRedirect("home.jsp");  // Chuyển hướng khi đăng nhập thành công
         } else {
             request.setAttribute("errorMessage", "Invalid username or password");
             request.getRequestDispatcher("login.jsp").forward(request, response);  // Trả về trang login nếu thất bại
