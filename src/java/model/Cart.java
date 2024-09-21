@@ -1,27 +1,27 @@
 package model;
 
 public class Cart {
-    private int accountId;
+    private int customerId;
     private int productId;
     private int amount;
-    private int orderId;
+
+    // Getters và Setters
 
     public Cart() {
     }
 
-    public Cart(int accountId, int productId, int amount, int orderId) {
-        this.accountId = accountId;
+    public Cart(int customerId, int productId, int amount) {
+        this.customerId = customerId;
         this.productId = productId;
         this.amount = amount;
-        this.orderId = orderId;
     }
 
-    public int getAccountId() {
-        return accountId;
+    public int getCustomerId() {
+        return customerId;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
     public int getProductId() {
@@ -39,13 +39,5 @@ public class Cart {
     public void setAmount(int amount) {
         this.amount = amount;
     }
-
-    public int getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
-    }
-
+    
 }

@@ -1,24 +1,27 @@
 package model;
 
 public class Customer {
-
     private int customerId;
     private String customerName;
     private String email;
     private String phone;
     private String address;
     private String customerType;
+    private int accountId;
+
+    // Getters và Setters
 
     public Customer() {
     }
 
-    public Customer(int customerId, String customerName, String email, String phone, String address, String customerType) {
+    public Customer(int customerId, String customerName, String email, String phone, String address, String customerType, int accountId) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.email = email;
         this.phone = phone;
         this.address = address;
         this.customerType = customerType;
+        this.accountId = accountId;
     }
 
     public int getCustomerId() {
@@ -69,4 +72,12 @@ public class Customer {
         this.customerType = customerType;
     }
 
+    public int getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
+    }
+    
 }

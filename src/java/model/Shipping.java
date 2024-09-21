@@ -2,7 +2,7 @@ package model;
 
 public class Shipping {
 
-    private int id;
+    private int shippingid;
     private String name;
     private String phone;
     private String address;
@@ -11,20 +11,20 @@ public class Shipping {
     public Shipping() {
     }
 
-    public Shipping(int id, String name, String phone, String address, String status) {
-        this.id = id;
+    public Shipping(int shippingid, String name, String phone, String address, String status) {
+        this.shippingid = shippingid;
         this.name = name;
         this.phone = phone;
         this.address = address;
         this.status = status;
     }
 
-    public int getId() {
-        return id;
+    public int getShippingid() {
+        return shippingid;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setShippingid(int shippingid) {
+        this.shippingid = shippingid;
     }
 
     public String getName() {
@@ -59,4 +59,5 @@ public class Shipping {
         this.status = status;
     }
 
+    
 }
