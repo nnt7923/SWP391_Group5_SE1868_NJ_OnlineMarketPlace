@@ -28,8 +28,8 @@ public class DBContext {
     }
 
     public DBContext() {
-        this("jdbc:sqlserver://localhost:1433;databaseName=Market",
-                "sa","12345678");
+        this("jdbc:sqlserver://localhost:1433;databaseName=mk3",
+                "sa","123456");
 
     }
 
