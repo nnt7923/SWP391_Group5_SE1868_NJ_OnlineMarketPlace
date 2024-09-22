@@ -1,4 +1,3 @@
-
 <% String message = (String) request.getParameter("message"); %>
 <!DOCTYPE html>
 <html lang="en">
@@ -7,10 +6,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" href="home-guest/favicon.png">
         <title>Enter OTP</title>
+
         <style>
             body {
                 background: linear-gradient(135deg, #30BD36, #5A84E6);
-                font-family: sans-serif;
+                font-family: 'Poppins', sans-serif;
                 margin: 0;
                 display: flex;
                 justify-content: center;
@@ -19,49 +19,75 @@
             }
 
             .enter-otp {
-                
-                background-color: white;
+                background-color: #fff;
                 width: fit-content;
                 text-align: center;
-                padding: 20px;
-                box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease-in-out;
+            }
+
+            .enter-otp:hover {
+                box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
             }
 
             .enter-otp img {
-                width: 150px;
+                width: 120px;
                 margin-top: 20px;
-            }
-
-            .otp-text {
-                color: red;
-                font-size: 15px;
-                margin-top: 10px;
+                border-radius: 50%;
             }
 
             .text-notice {
                 color: #343a40;
-                font-size: 20px;
+                font-size: 22px;
+                margin-top: 15px;
+                font-weight: 600;
+            }
+
+            .otp-text {
+                color: red;
+                font-size: 16px;
                 margin-top: 10px;
             }
 
             .otp-value input {
-                width: 200px;
-                padding: 8px;
+                width: 250px;
+                padding: 10px;
                 margin-top: 20px;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-                box-sizing: border-box;
+                border: 2px solid #ddd;
+                border-radius: 8px;
                 font-size: 16px;
+                transition: border-color 0.2s;
+            }
+
+            .otp-value input:focus {
+                border-color: #30BD36;
+                outline: none;
             }
 
             .reset-password input {
                 background-color: #30BD36;
                 color: white;
                 border: none;
-                border-radius: 6px;
-                padding: 10px 20px;
+                border-radius: 8px;
+                padding: 12px 24px;
                 cursor: pointer;
                 font-size: 16px;
+                margin-top: 20px;
+                transition: background-color 0.3s ease;
+            }
+
+            .reset-password input:hover {
+                background-color: #228B22;
+            }
+
+            .reset-password input:active {
+                background-color: #1E7D1E;
+            }
+
+            h3#message {
+                color: #FF0E0E;
                 margin-top: 20px;
             }
         </style>
@@ -69,17 +95,17 @@
     <body>
         <div class="enter-otp">
             <div class="text-notice">Enter OTP</div>
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWxaKG6HL-_z88M5D0-zeXZjQHqN33XNtYmA&usqp=CAU" alt="Response Image">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWxaKG6HL-_z88M5D0-zeXZjQHqN33XNtYmA&usqp=CAU" alt="OTP Image">
             <div class="text-notice">Check your email for the OTP</div>
             <div class="otp-text">
                 <% if(message != null) { %>
-                <h3 id="message" style="color: #FF0E0E; margin-top: 20px;"><%= message %></h3> 
+                <h3 id="message"><%= message %></h3> 
                 <% } %>
             </div>
             <% String flag = (String) session.getAttribute("flag") == null ? "" : (String) session.getAttribute("flag"); %>
-            <form id="register-form" action="VerifyCodeController" class="form" method="post">
+            <form id="register-form" action="VerifyCodeController" method="post">
                 <div class="otp-value">
-                    <input id="opt" name="code" placeholder="Enter OTP" type="text" required>
+                    <input id="otp" name="code" placeholder="Enter OTP" type="text" required>
                     <input type="hidden" name="flag" value="<%= flag %>">
                 </div>
                 <div class="reset-password">

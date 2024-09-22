@@ -176,6 +176,24 @@ public class AccountDAO extends DBContext {
         }
         return null;
     }
+    
+        public int updatePassword(String newPassword, String email) {
+            String sql = "UPDATE Account SET password = ? WHERE email = ?";
+
+            try {
+                PreparedStatement pre = conn.prepareStatement(sql);
+                pre.setString(1, newPassword);
+                pre.setString(2, email);
+
+
+                return pre.executeUpdate();
+
+            } catch (SQLException ex) {
+                Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+                return 0; 
+            }
+        }
+
 
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();

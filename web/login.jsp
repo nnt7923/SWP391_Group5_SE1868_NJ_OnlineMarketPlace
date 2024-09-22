@@ -76,7 +76,7 @@
                 </form>
             </div>
             <div class="form-container sign-in-container">
-                <form action="login" method="post">
+                <form action="Login" method="post">
                     <h1>Login</h1>
                     <div class="social-container">
                         <a href="#" class="social"><i class="fa-brands fa-google"></i></a>

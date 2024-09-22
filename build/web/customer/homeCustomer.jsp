@@ -12,4 +12,4 @@
         return;
     }
 %>
-<h1>Welcome Customer: <%= account.getEmail()%></h1>
+<h1>Welcome Customer: <%= account.getUsername()%></h1>

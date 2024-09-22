@@ -8,7 +8,7 @@
     <style>
         body {
             background: linear-gradient(135deg, #30BD36, #5A84E6);
-            font-family: sans-serif;
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             display: flex;
             justify-content: center;
@@ -29,6 +29,8 @@
         .title-text {
             font-size: 2rem;
             margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
         }
 
         .form-group {
@@ -53,6 +55,7 @@
         .note-text {
             font-size: 0.85rem;
             margin-bottom: 20px;
+            color: #6c757d;
         }
 
         .reset {
@@ -68,12 +71,22 @@
             padding: 10px 20px;
             cursor: pointer;
             font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        #submitButton:hover {
+            background-color: #228B22;
         }
 
         .notice-message {
             color: red;
             margin-top: 20px;
             text-align: center;
+        }
+
+        #passwordError, #repasswordError {
+            color: red;
+            font-size: 0.85rem;
         }
     </style>
 </head>
@@ -85,12 +98,12 @@
         <form action="ResetPasswordController" method="POST">
             <div class="form-group">
                 <h4 class="text-password">New Password:</h4>
-                <input type="password" name="newPassword" required>
+                <input type="password" name="newPassword" id="newPassword" required>
                 <div id="passwordError"></div>
             </div>
             <div class="form-group">
                 <h4 class="text-password">Confirm Password:</h4>
-                <input type="password" name="newPassword" required>
+                <input type="password" name="confirmPassword" id="confirmPassword" required>
                 <div id="repasswordError"></div>
             </div>
             <div class="note-text">

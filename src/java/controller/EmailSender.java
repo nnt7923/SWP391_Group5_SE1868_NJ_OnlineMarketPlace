@@ -32,7 +32,7 @@ import model.Account;
 @WebServlet(name = "EmailSender", urlPatterns = {"/EmailSender"})
 public class EmailSender extends HttpServlet {
 
-    private static final String PHONE_NUMBER_REGEX = "^0\\d{9}$";
+//    private static final String PHONE_NUMBER_REGEX = "^0\\d{9}$";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -60,13 +60,13 @@ public class EmailSender extends HttpServlet {
             List<Account> list = dao.listAll();
 
             // phone_regex
-            Pattern phone_number_pattern = Pattern.compile(PHONE_NUMBER_REGEX);
-            Matcher matcher = phone_number_pattern.matcher(phone);
-            if (!matcher.matches()) {
-                session.setAttribute("message", "Invalid phone number!!!");
-                request.getRequestDispatcher("login.jsp").forward(request, response);
-                return;
-            }
+//            Pattern phone_number_pattern = Pattern.compile(PHONE_NUMBER_REGEX);
+//            Matcher matcher = phone_number_pattern.matcher(phone);
+//            if (!matcher.matches()) {
+//                session.setAttribute("message", "Invalid phone number!!!");
+//                request.getRequestDispatcher("login.jsp").forward(request, response);
+//                return;
+//            }
 
             // check exist email
             for (Account account : list) {
@@ -118,7 +118,7 @@ public class EmailSender extends HttpServlet {
     private boolean sendEmail(String recipient, String code) throws UnsupportedEncodingException {
         // email account information
         String email = "truongnnhe172873@fpt.edu.vn";
-        String password = "Truong2003";
+//        String password = "Truong2003";
         String appPassword = "davx eoar hfjw rsux";
         String smtpHost = "smtp.gmail.com";
         int smtpPort = 587;
