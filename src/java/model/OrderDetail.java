@@ -1,31 +1,25 @@
 package model;
 
 public class OrderDetail {
-    private int id;
     private int orderId;
+    private int productId;
     private String productName;
     private String productImage;
     private double productPrice;
     private int quantity;
 
+    // Getters và Setters
+
     public OrderDetail() {
     }
 
-    public OrderDetail(int id, int orderId, String productName, String productImage, double productPrice, int quantity) {
-        this.id = id;
+    public OrderDetail(int orderId, int productId, String productName, String productImage, double productPrice, int quantity) {
         this.orderId = orderId;
+        this.productId = productId;
         this.productName = productName;
         this.productImage = productImage;
         this.productPrice = productPrice;
         this.quantity = quantity;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getOrderId() {
@@ -34,6 +28,14 @@ public class OrderDetail {
 
     public void setOrderId(int orderId) {
         this.orderId = orderId;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public String getProductName() {
@@ -67,6 +69,5 @@ public class OrderDetail {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-
     
 }

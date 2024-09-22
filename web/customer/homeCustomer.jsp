@@ -7,8 +7,8 @@
 <%@ page import="model.Account" %>
 <%
     Account account = (Account) session.getAttribute("account");
-    if (account == null || account.getRoleID() != 3) {
-        response.sendRedirect("../login.jsp");
+    if (account == null || account.getRoleId()!= 3) {
+        response.sendRedirect("login.jsp");
         return;
     }
 %>
