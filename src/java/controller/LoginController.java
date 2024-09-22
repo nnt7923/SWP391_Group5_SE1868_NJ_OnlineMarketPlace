@@ -77,7 +77,7 @@ public class LoginController extends HttpServlet {
             } else if (role.getRoleName().equals("seller")) {
                 response.sendRedirect("seller/dashboard.jsp");
             } else if (role.getRoleName().equals("customer")) {
-                response.sendRedirect("customer/home.jsp");
+                response.sendRedirect("./index.jsp");
             } else if (role.getRoleName().equals("shipper")) {
                 response.sendRedirect("shipper/dashboard.jsp");
             }
@@ -105,11 +105,11 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
+        String email = request.getParameter("email");
         String password = request.getParameter("password");
 
         AccountDAO dao = new AccountDAO();
-        Account account = dao.login(username, password);
+        Account account = dao.login(email, password);
 
         if (account != null) {
             HttpSession session = request.getSession();
@@ -124,12 +124,12 @@ public class LoginController extends HttpServlet {
             } else if (role.getRoleName().equals("seller")) {
                 response.sendRedirect("seller/dashboard.jsp");
             } else if (role.getRoleName().equals("customer")) {
-                response.sendRedirect("customer/home.jsp");
+                response.sendRedirect("./index.jsp");
             } else if (role.getRoleName().equals("shipper")) {
                 response.sendRedirect("shipper/dashboard.jsp");
             }
         } else {
-            request.setAttribute("errorMessage", "Invalid username or password.");
+            request.setAttribute("errorMessage", "Invalid email or password.");
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }

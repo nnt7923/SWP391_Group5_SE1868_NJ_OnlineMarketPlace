@@ -15,15 +15,15 @@ import model.Role;
 
 public class AccountDAO {
 
-    public Account login(String username, String password) {
-        String query = "SELECT * FROM Account WHERE username = ? AND password = ?";
+    public Account login(String email, String password) {
+        String query = "SELECT * FROM Account WHERE email = ? AND password = ?";
         try (Connection conn = new DBContext().conn; PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.setString(1, username);
+            ps.setString(1, email);
             ps.setString(2, password);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return new Account(rs.getInt("id"), rs.getString("username"), rs.getString("email"),
-                            rs.getString("password"), rs.getString("phone"), rs.getString("address"),
+                    return new Account(rs.getInt("id"), rs.getString("username"), rs.getString("password"),
+                            rs.getString("email"), rs.getString("phone"), rs.getString("address"),
                             rs.getInt("roleID"), rs.getString("status"));
                 }
             }
@@ -147,7 +147,7 @@ public class AccountDAO {
 
     public static void main(String[] args) {
         AccountDAO db = new AccountDAO();
-        Account d = db.getUserById(3);
+        Account d = db.login("customer@gmail.com", "123");
         System.out.println(d);
 
     }

@@ -19,7 +19,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <h1>Create Account</h1>
                     <div class="social-container">
                         <a href="#" class="social"><i class="fa-brands fa-facebook"></i></a>
-                        <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/OnlineMarketPlace/login&response_type=code&client_id=273365308613-bh0svqt2gvjp973pk4m9g1o54ac5j8v2.apps.googleusercontent.com&approval_prompt=force">
+                        <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:9998/OnlineMarketPlace/login&response_type=code&client_id=273365308613-bh0svqt2gvjp973pk4m9g1o54ac5j8v2.apps.googleusercontent.com&approval_prompt=force">
                             <i class="fa-brands fa-google"></i>
                         </a>
                     </div>
@@ -41,20 +41,20 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <h1>Login</h1>
                     <div class="social-container">
                         <a href="#" class="social"><i class="fa-brands fa-facebook"></i></a>
-                        <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/OnlineMarketPlace/login&response_type=code&client_id=273365308613-bh0svqt2gvjp973pk4m9g1o54ac5j8v2.apps.googleusercontent.com&approval_prompt=force">
+                        <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:9998/OnlineMarketPlace/login&response_type=code&client_id=273365308613-bh0svqt2gvjp973pk4m9g1o54ac5j8v2.apps.googleusercontent.com&approval_prompt=force">
                             <i class="fa-brands fa-google"></i>
                         </a>
                     </div>
                     <span>or use your account</span>
-                    <input type="text" name="username" placeholder="Username" />
-                    <input type="password" name="password" placeholder="Password" />
+                    <input type="text" name="email" placeholder="Enter email" maxlength="30" required="required" autocomplete="off" />
+                    <input type="password" name="password" placeholder="Enter password" maxlength="16" required="required" autocomplete="off" />
                     <a href="#" id="forgotPasswordLink">Forgot your password?</a>
                     <button type="submit">Login</button>
                     <%
-            String errorMessage = (String) request.getAttribute("errorMessage");
-            if (errorMessage != null) {
-                out.println("<p style='color: red;'>" + errorMessage + "</p>");
-            }
+                        String errorMessage = (String) request.getAttribute("errorMessage");
+                        if (errorMessage != null) {
+                            out.println("<p style='color: red;'>" + errorMessage + "</p>");
+                        }
                     %>
                 </form>
 
