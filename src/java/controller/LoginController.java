@@ -39,31 +39,31 @@ public class LoginController extends HttpServlet {
 
             Account account = accountDAO.getAccountByEmail(googleAccount.getEmail());
             if (account == null) {
-                // Tài khoản không tồn tại, tạo mới
+                // T�i kho?n kh�ng t?n t?i, t?o m?i
                 account = new Account();
                 account.setUsername(googleAccount.getEmail().split("@")[0]);
                 account.setEmail(googleAccount.getEmail());
 
-                // Tạo mật khẩu ngẫu nhiên cho tài khoản Google
+                // T?o m?t kh?u ng?u nhi�n cho t�i kho?n Google
                 String randomPassword = accountDAO.generateRandomPassword();
                 account.setPassword(randomPassword);
 
-                account.setRoleID(3);
+                account.setRoleId(3);
                 account.setStatus("active");
                 accountDAO.addAccount(account);
 
-                // Lấy lại thông tin account mới thêm từ DB để có ID chính xác
+                // L?y l?i th�ng tin account m?i th�m t? DB ?? c� ID ch�nh x�c
                 account = accountDAO.getAccountByEmail(googleAccount.getEmail());
             }
 
             HttpSession session = request.getSession();
             session.setAttribute("account", account);
 
-            // Lấy vai trò của tài khoản từ cơ sở dữ liệu và lưu vào session
-            Role role = accountDAO.getRoleByAccountId(account.getId());
+            // L?y vai tr� c?a t�i kho?n t? c? s? d? li?u v� l?u v�o session
+            Role role = accountDAO.getRoleByAccountId(account.getAccountId());
             
             if (role == null) {
-                // Xử lý trường hợp role không tìm thấy, tránh NullPointerException
+                // X? l� tr??ng h?p role kh�ng t�m th?y, tr�nh NullPointerException
                 request.setAttribute("errorMessage", "Role not found for the account.");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
                 return;
@@ -71,13 +71,13 @@ public class LoginController extends HttpServlet {
 
             session.setAttribute("role", role);
 
-            // Điều hướng dựa trên vai trò
+            // ?i?u h??ng d?a tr�n vai tr�
             if (role.getRoleName().equals("admin")) {
                 response.sendRedirect("admin/dashboard.jsp");
             } else if (role.getRoleName().equals("seller")) {
                 response.sendRedirect("seller/dashboard.jsp");
             } else if (role.getRoleName().equals("customer")) {
-                response.sendRedirect("customer/home.jsp");
+                response.sendRedirect("./index.jsp");
             } else if (role.getRoleName().equals("shipper")) {
                 response.sendRedirect("shipper/dashboard.jsp");
             }
@@ -105,31 +105,31 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
+        String email = request.getParameter("email");
         String password = request.getParameter("password");
 
         AccountDAO dao = new AccountDAO();
-        Account account = dao.login(username, password);
+        Account account = dao.login(email, password);
 
         if (account != null) {
             HttpSession session = request.getSession();
             session.setAttribute("account", account);
 
-            Role role = dao.getRoleByAccountId(account.getId());
+            Role role = dao.getRoleByAccountId(account.getAccountId());
             session.setAttribute("role", role);
 
-            // Điều hướng dựa trên vai trò
+            // ?i?u h??ng d?a tr�n vai tr�
             if (role.getRoleName().equals("admin")) {
                 response.sendRedirect("admin/dashboard.jsp");
             } else if (role.getRoleName().equals("seller")) {
                 response.sendRedirect("seller/dashboard.jsp");
             } else if (role.getRoleName().equals("customer")) {
-                response.sendRedirect("customer/home.jsp");
+                response.sendRedirect("./index.jsp");
             } else if (role.getRoleName().equals("shipper")) {
                 response.sendRedirect("shipper/dashboard.jsp");
             }
         } else {
-            request.setAttribute("errorMessage", "Invalid username or password.");
+            request.setAttribute("errorMessage", "Invalid email or password.");
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }

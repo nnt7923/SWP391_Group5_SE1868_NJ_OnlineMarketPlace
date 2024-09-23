@@ -26,7 +26,7 @@ public class ProfilesController extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         Account user = (Account) session.getAttribute("account");
-        int userId = user.getId();
+        int userId = user.getAccountId();
         AccountDAO userDB = new AccountDAO();
         Account userGetted = userDB.getUserById(userId);
         
