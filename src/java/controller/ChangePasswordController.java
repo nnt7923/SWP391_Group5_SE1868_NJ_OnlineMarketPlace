@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import dao.AccountDAO;
 import model.Account;
+import utils.PasswordValidator;
 
 @WebServlet(name = "ChangePasswordController", urlPatterns = {"/change-password"})
 public class ChangePasswordController extends HttpServlet {
@@ -45,17 +46,20 @@ public class ChangePasswordController extends HttpServlet {
             return;
         }
 
-        // Cập nhật mật khẩu mới
-        AccountDAO dao = new AccountDAO();
-        int result = dao.updatePassword(newPassword, account.getEmail());
+        if (!PasswordValidator.isValidPassword(newPassword)) {
+            session.setAttribute("message", "Mật khẩu không hợp lệ. Mật khẩu phải có ít nhất 8 ký tự, bao gồm ít nhất 1 chữ hoa, 1 chữ thường và 1 số.");
 
-        if (result > 0) {
-            request.setAttribute("successMessage", "Password changed successfully!");
-            request.getRequestDispatcher("profile.jsp").forward(request, response);
-        } else {
-            request.setAttribute("errorMessage", "Error while changing password. Please try again.");
-            request.getRequestDispatcher("changePassword.jsp").forward(request, response);
+            // Cập nhật mật khẩu mới
+            AccountDAO dao = new AccountDAO();
+            int result = dao.updatePassword(newPassword, account.getEmail());
+
+            if (result > 0) {
+                request.setAttribute("successMessage", "Password changed successfully!");
+                request.getRequestDispatcher("profile.jsp").forward(request, response);
+            } else {
+                request.setAttribute("errorMessage", "Error while changing password. Please try again.");
+                request.getRequestDispatcher("changePassword.jsp").forward(request, response);
+            }
         }
     }
 }
-

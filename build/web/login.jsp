@@ -82,7 +82,7 @@
                         <a href="#" class="social"><i class="fa-brands fa-google"></i></a>
                     </div>
                     <span>or use your account</span>
-                    <input type="text" name="email" placeholder="Username" />
+                    <input type="text" name="email" placeholder="email" />
                     <input type="password" name="password" placeholder="Password" />
                     <a href="#" id="forgotPasswordLink">Forgot your password?</a>
                     <button type="submit">Login</button>
@@ -136,12 +136,12 @@
 
         <%
             // Xử lý logic đăng nhập
-            String username = request.getParameter("username");
+            String email = request.getParameter("email");
             String password = request.getParameter("password");
 
-            if (username != null && password != null) {
+            if (email != null && password != null) {
                 AccountDAO accountDAO = new AccountDAO();
-                Account account = accountDAO.login(username, password);
+                Account account = accountDAO.login(email, password);
 
                 if (account != null) {
                     // Lưu thông tin đăng nhập vào session
