@@ -19,10 +19,10 @@
         .container {
             max-width: 400px;
             margin: 10% auto;
-            padding: 20px;
+            padding: 30px;
             background-color: white;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
             color: #343a40;
         }
 
