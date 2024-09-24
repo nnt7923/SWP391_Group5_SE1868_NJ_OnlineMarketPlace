@@ -110,7 +110,6 @@
             color: #666;
         }
 
-        /* Responsive cho màn hình nh? */
         @media (max-width: 768px) {
             .sidebar {
                 width: 100%;
@@ -155,7 +154,7 @@
 
         <section id="accounts">
             <h2>Manage Accounts</h2>
-            <!-- N?i dung c?a manageAccount.jsp s? n?m ? ?ây -->
+
             <form action="account?service=listAll" method="get">
                 <input type="text" name="keyword" placeholder="Search by username">
                 <input type="hidden" name="service" value="searchAccount">
@@ -221,19 +220,20 @@
             const sections = document.querySelectorAll('section');
             const links = document.querySelectorAll('.sidebar ul li a');
 
-            // ?n t?t c? các section
+
+            // ?n t?t c? c?c section
             sections.forEach(section => section.style.display = 'none');
 
-            // Hi?n th? section ??u tiên
+            // Hi?n th? section ??u ti?n
             document.querySelector('#manageCategories').style.display = 'block';
 
-            // X? lý s? ki?n khi nh?n vào liên k?t trong sidebar
+            // X? l? s? ki?n khi nh?n v?o li?n k?t trong sidebar
+
             links.forEach(link => {
                 link.addEventListener('click', function(e) {
                     const sectionID = link.getAttribute('data-section');
                     if (sectionID !== "manageAccounts") {
                         e.preventDefault();
-                        // ?n t?t c? các section
                         sections.forEach(section => section.style.display = 'none');
                         // Hi?n th? section ???c ch?n
                         const targetSection = document.getElementById(sectionID);

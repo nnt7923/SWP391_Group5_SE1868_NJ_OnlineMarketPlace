@@ -29,7 +29,7 @@
             Swal.fire({
                 icon: 'success',
                 title: 'Success',
-                text: '<%= successMessage %>',
+                text: '<%= successMessage%>',
                 imageUrl: 'img/ri_nhi.jpg',
                 imageWidth: 400,
                 imageHeight: 200,
@@ -50,7 +50,6 @@
         <%
                 session.removeAttribute("message");
             }
-            
             // Hiển thị thông báo lỗi từ request attribute 'mess'
             String errorMessage = (String) request.getAttribute("mess");
             if (errorMessage != null) {
@@ -60,7 +59,9 @@
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: '<%= errorMessage %>',
+
+              '<%= errorMessage%>',
+
                 showClass: {
                     popup: 'animate__animated animate__fadeInDown',
                     backdrop: 'animate__animated animate__fadeIn'
