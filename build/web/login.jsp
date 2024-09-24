@@ -4,7 +4,6 @@
     Author     : phuvu
 --%>
 
-<%@ page import="java.sql.*, model.Account, dao.AccountDAO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,16 +20,16 @@
     <body>
 
         <%
-            String message = (String) session.getAttribute("message");
-            if (message != null) {
+            // Hiển thị thông báo thành công từ session
+            String successMessage = (String) session.getAttribute("message");
+            if (successMessage != null) {
         %>
 
         <script>
-
             Swal.fire({
                 icon: 'success',
                 title: 'Success',
-                text: '<%= message%>',
+                text: '<%= successMessage%>',
                 imageUrl: 'img/ri_nhi.jpg',
                 imageWidth: 400,
                 imageHeight: 200,
@@ -49,28 +48,53 @@
             });
         </script>
         <%
+                session.removeAttribute("message");
             }
-            session.removeAttribute("message");
+
+            // Hiển thị thông báo lỗi từ request attribute 'mess'
+            String errorMessage = (String) request.getAttribute("mess");
+            if (errorMessage != null) {
+        %>
+
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '<%= errorMessage%>',
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown',
+                    backdrop: 'animate__animated animate__fadeIn'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp',
+                    backdrop: 'animate__animated animate__fadeOut'
+                },
+                confirmButtonText: 'OK'
+            });
+        </script>
+        <%
+            }
         %>
 
         <div class="container" id="container">
             <div class="form-container sign-up-container">
-                <form action="EmailSender">
+                <form action="EmailSender" method="post">
                     <h1>Create Account</h1>
                     <div class="social-container">
                         <a href="#" class="social"><i class="fa-brands fa-google"></i></a>
+                        <!-- Bạn có thể thêm các nút đăng nhập xã hội khác nếu cần -->
                     </div>
                     <span>or use your email for registration</span>
-                    <input type="text" name="username" placeholder="Username" />
-                    <input type="password" name="password" placeholder="Password" />
-                    <input type="email" name="email" placeholder="Email" />
-
-                    <input type="text" name="phone" placeholder="Phone" />
-                    <input type="text" name="address" placeholder="Address" />
+                    <input type="text" name="username" placeholder="Username" required />
+                    <input type="password" name="password" placeholder="Password" required />
+                    <input type="email" name="email" placeholder="Email" required />
+                    <input type="text" name="phone" placeholder="Phone" required />
+                    <input type="text" name="address" placeholder="Address" required />
                     <input type="hidden" name="flag" value="register" />
-                    <select name="role" id="role">
+                    <select name="role" id="role" required>
                         <option value="3" selected>Customer</option>
                         <option value="2">Seller</option>
+                        <!-- Thêm các vai trò khác nếu cần -->
                     </select><br>
                     <button type="submit">Register</button>
                 </form>
@@ -80,10 +104,11 @@
                     <h1>Login</h1>
                     <div class="social-container">
                         <a href="#" class="social"><i class="fa-brands fa-google"></i></a>
+                        <!-- Bạn có thể thêm các nút đăng nhập xã hội khác nếu cần -->
                     </div>
                     <span>or use your account</span>
-                    <input type="text" name="email" placeholder="Username" />
-                    <input type="password" name="password" placeholder="Password" />
+                    <input type="email" name="email" placeholder="Email" required />
+                    <input type="password" name="password" placeholder="Password" required />
                     <a href="#" id="forgotPasswordLink">Forgot your password?</a>
                     <button type="submit">Login</button>
                 </form>
@@ -106,19 +131,23 @@
                 <div class="popup" id="forgotPasswordPopup">
                     <div class="popup-content">
                         <h3>Reset Password</h3>
-                        <input name="email_forgot" type="email" placeholder="Enter your email" />
+                        <input name="email_forgot" type="email" placeholder="Enter your email" required />
                         <input type="hidden" name="flag" value="forgotPassword">
                         <button type="submit" id="submit-btn">Send</button>
-                        <button class="close-popup" id="closePopupButton">Close</button>
+                        <button type="button" class="close-popup" id="closePopupButton">Close</button>
                     </div>
                 </div>
             </form>
         </div>
+
         <script>
             const signUpButton = document.getElementById('signUp');
             const signInButton = document.getElementById('signIn');
             const container = document.getElementById('container');
             const closePopupButton = document.getElementById('closePopupButton');
+            const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+            const forgotPasswordPopup = document.getElementById('forgotPasswordPopup');
+
             signUpButton.addEventListener('click', () => {
                 container.classList.add("right-panel-active");
             });
@@ -131,44 +160,7 @@
             closePopupButton.addEventListener('click', () => {
                 forgotPasswordPopup.style.display = 'none';
             });
-
         </script>
 
-        <%
-            // Xử lý logic đăng nhập
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
-
-            if (username != null && password != null) {
-                AccountDAO accountDAO = new AccountDAO();
-                Account account = accountDAO.login(username, password);
-
-                if (account != null) {
-                    // Lưu thông tin đăng nhập vào session
-                    session.setAttribute("account", account);
-
-                    // Điều hướng người dùng theo vai trò
-                    int roleID = account.getRoleId();
-                    switch (roleID) {
-                        case 1: // Admin
-                            response.sendRedirect("admin/dashboard.jsp");
-                            break;
-                        case 2: // Seller
-                            response.sendRedirect("seller/dashboard.jsp");
-                            break;
-                        case 3: // Customer
-                            response.sendRedirect("customer/homeCustomer.jsp");
-                            break;
-                        case 4: // Shipper
-                            response.sendRedirect("shipper/dashboard.jsp");
-                            break;
-                        default:
-                            out.println("Invalid role.");
-                    }
-                } else {
-                    out.println("<p style='color:red;'>Invalid username or password.</p>");
-                }
-            }
-        %>
     </body>
 </html>
