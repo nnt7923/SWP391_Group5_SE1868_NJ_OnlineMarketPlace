@@ -8,11 +8,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import validation.PasswordValidator;
 
 @WebServlet(name = "AccountController", urlPatterns = {"/account", "/admin/account"})
 
@@ -85,8 +87,21 @@ public class AccountController extends HttpServlet {
             int roleID = Integer.parseInt(request.getParameter("roleID"));
             String status = request.getParameter("status");
 
+            AccountDAO dao = new AccountDAO();
+            HttpSession session = request.getSession();
+
+            if (!PasswordValidator.isValidPassword(password)) {
+                session.setAttribute("errorMessage", "Mật khẩu không hợp lệ. Mật khẩu phải có ít nhất 8 ký tự, bao gồm ít nhất 1 chữ hoa, 1 chữ thường và 1 số");
+                response.sendRedirect("register.jsp");
+            } else {
+                session.setAttribute("message", "Register Successfully!");
+                response.sendRedirect("login.jsp");
+            }
+
             Account newAccount = new Account(0, username, password, email, phone, address, roleID, status);
+
             accountDAO.add(newAccount);
+
             response.sendRedirect("account?service=listAll");
         } catch (NumberFormatException e) {
             logger.log(Level.SEVERE, "Error parsing roleID: " + e.getMessage(), e);

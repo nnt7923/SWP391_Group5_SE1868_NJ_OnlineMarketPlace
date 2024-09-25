@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
 import javax.mail.*;
 import javax.mail.internet.*;
 import model.Account;
+import validation.PasswordValidator;
 
 /**
  *
@@ -67,7 +68,11 @@ public class EmailSender extends HttpServlet {
 //                request.getRequestDispatcher("login.jsp").forward(request, response);
 //                return;
 //            }
-
+             if (!PasswordValidator.isValidPassword(password)) {
+                session.setAttribute("errorMessage", "Mật khẩu không hợp lệ. Mật khẩu phải có ít nhất 8 ký tự, bao gồm ít nhất 1 chữ hoa, 1 chữ thường và 1 số");
+                    request.getRequestDispatcher("register.jsp").forward(request, response);
+                    return;
+            } 
             // check exist email
             for (Account account : list) {
                 if (email.equals(account.getEmail())) {

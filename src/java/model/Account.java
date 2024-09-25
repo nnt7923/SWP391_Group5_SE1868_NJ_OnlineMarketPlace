@@ -1,6 +1,7 @@
 package model;
 
 public class Account {
+
     private int accountId;
     private String username;
     private String password;
@@ -11,7 +12,6 @@ public class Account {
     private String status;
 
     // Getters và Setters
-
     public Account() {
     }
 
@@ -35,8 +35,6 @@ public class Account {
         this.roleId = roleId;
         this.status = status;
     }
-    
-    
 
     public int getAccountId() {
         return accountId;
@@ -101,5 +99,10 @@ public class Account {
     public void setStatus(String status) {
         this.status = status;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Account{" + "accountId=" + accountId + ", username=" + username + ", password=" + password + ", email=" + email + ", phone=" + phone + ", address=" + address + ", roleId=" + roleId + ", status=" + status + '}';
+    }
+
 }

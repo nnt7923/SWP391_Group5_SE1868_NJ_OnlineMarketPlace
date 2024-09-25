@@ -17,7 +17,6 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author nntru
  */
-@WebServlet(name="HomePageController", urlPatterns={"/HomePageController"})
 public class HomePageController extends HttpServlet {
    
     /** 
