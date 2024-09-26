@@ -42,13 +42,13 @@
             </div>
             <div class="container px-0">
                 <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                    <a href="index.jsp" class="navbar-brand"><h1 class="text-primary display-6">Fruitables</h1></a>
+                    <a href="home.jsp" class="navbar-brand"><h1 class="text-primary display-6">Fruitables</h1></a>
                     <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span class="fa fa-bars text-primary"></span>
                     </button>
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
-                            <a href="index.jsp" class="nav-item nav-link active">Home</a>
+                            <a href="home.jsp" class="nav-item nav-link active">Home</a>
                             <a href="shop.html" class="nav-item nav-link">Shop</a>
                             <a href="shop-detail.html" class="nav-item nav-link">Shop Detail</a>
                             <div class="nav-item dropdown">
@@ -75,7 +75,7 @@
                                     </a>
                                 </c:when>
                                 <c:otherwise>
-                                    <a href="profiles.jsp" class="my-auto">
+                                    <a href="profile.jsp" class="my-auto">
                                         <i class="fas fa-user fa-2x"></i>
                                     </a>
                                 </c:otherwise>

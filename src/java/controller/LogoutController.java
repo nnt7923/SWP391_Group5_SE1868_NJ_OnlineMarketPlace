@@ -7,10 +7,6 @@ package controller;
 import jakarta.servlet.http.Cookie;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -29,7 +25,7 @@ public class LogoutController extends jakarta.servlet.http.HttpServlet {
 
         response.addCookie(cEmail);
         response.addCookie(cPass);
-        response.sendRedirect("/OnlineMarketPlace/index.jsp");
+        response.sendRedirect("./home.jsp");
     }
 
     @Override

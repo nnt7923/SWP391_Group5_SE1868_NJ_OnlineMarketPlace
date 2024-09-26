@@ -6,18 +6,18 @@ public class Payments {
     private int orderId;
     private String paymentDate;
     private double amount;
-    private String paymentMethod;
+    private String paymentmethod;
     private String status;
 
     public Payments() {
     }
 
-    public Payments(int paymentId, int orderId, String paymentDate, double amount, String paymentMethod, String status) {
+    public Payments(int paymentId, int orderId, String paymentDate, double amount, String paymentmethod, String status) {
         this.paymentId = paymentId;
         this.orderId = orderId;
         this.paymentDate = paymentDate;
         this.amount = amount;
-        this.paymentMethod = paymentMethod;
+        this.paymentmethod = paymentmethod;
         this.status = status;
     }
 
@@ -53,12 +53,12 @@ public class Payments {
         this.amount = amount;
     }
 
-    public String getPaymentMethod() {
-        return paymentMethod;
+    public String getPaymentmethod() {
+        return paymentmethod;
     }
 
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
+    public void setPaymentmethod(String paymentmethod) {
+        this.paymentmethod = paymentmethod;
     }
 
     public String getStatus() {
@@ -69,4 +69,5 @@ public class Payments {
         this.status = status;
     }
 
+    
 }

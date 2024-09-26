@@ -7,13 +7,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Role;
 
-public class AccountDAO {
+public class AccountDAO extends DBContext {
 
     public Account login(String email, String password) {
         String query = "SELECT * FROM Account WHERE email = ? AND password = ?";
@@ -22,9 +23,9 @@ public class AccountDAO {
             ps.setString(2, password);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return new Account(rs.getInt("id"), rs.getString("username"), rs.getString("password"),
+                    return new Account(rs.getInt("account_id"), rs.getString("username"), rs.getString("password"),
                             rs.getString("email"), rs.getString("phone"), rs.getString("address"),
-                            rs.getInt("roleID"), rs.getString("status"));
+                            rs.getInt("role_id"), rs.getString("status"));
                 }
             }
         } catch (Exception e) {
@@ -34,13 +35,13 @@ public class AccountDAO {
     }
 
     public Role getRoleByAccountId(int accountId) {
-        String query = "SELECT Role.ID, Role.roleName FROM Role "
-                + "JOIN Account ON Role.ID = Account.roleID WHERE Account.id = ?";
+        String query = "SELECT Role.role_id, Role.role_name FROM Role "
+                + "JOIN Account ON Role.role_id = Account.role_id WHERE Account.account_id = ?";
         try (Connection conn = new DBContext().conn; PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, accountId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return new Role(rs.getInt("ID"), rs.getString("roleName"));
+                    return new Role(rs.getInt("role_id"), rs.getString("role_name"));
                 }
             }
         } catch (SQLException e) {
@@ -49,14 +50,14 @@ public class AccountDAO {
         return null;
     }
 
-    // Thêm người dùng mới vào cơ sở dữ liệu
+    // Th�m ng??i d�ng m?i v�o c? s? d? li?u
     public void addAccount(Account account) throws SQLException {
-        String query = "INSERT INTO Account (username, email, password, roleID, status) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Account (username, email, password, role_id, status) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = new DBContext().conn; PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, account.getUsername());
             ps.setString(2, account.getEmail());
             ps.setString(3, account.getPassword());
-            ps.setInt(4, account.getRoleID());
+            ps.setInt(4, account.getRoleId());
             ps.setString(5, account.getStatus());
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -64,7 +65,7 @@ public class AccountDAO {
         }
     }
 
-    // Tạo mật khẩu ngẫu nhiên
+    // T?o m?t kh?u ng?u nhi�n
     public String generateRandomPassword() {
         int length = 10;
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -76,13 +77,13 @@ public class AccountDAO {
         return password.toString();
     }
 
-    // Xử lý đăng nhập Google
+    // X? l� ??ng nh?p Google
     public void handleGoogleLogin(GoogleAccount googleAccount) throws SQLException {
         AccountDAO accountDAO = new AccountDAO();
         Account existingAccount = accountDAO.getAccountByEmail(googleAccount.getEmail());
 
         if (existingAccount != null) {
-            // Người dùng đã có trong hệ thống
+            // Ng??i d�ng ?� c� trong h? th?ng
             System.out.println("User already exists: " + existingAccount.getEmail());
         } else {
             System.out.println("New Google user, creating account: " + googleAccount.getEmail());
@@ -90,7 +91,7 @@ public class AccountDAO {
             newAccount.setUsername(googleAccount.getEmail().split("@")[0]);
             newAccount.setEmail(googleAccount.getEmail());
             newAccount.setPassword("");
-            newAccount.setRoleID(3);
+            newAccount.setRoleId(3);
             newAccount.setStatus("active");
 
             accountDAO.addAccount(newAccount);
@@ -98,7 +99,7 @@ public class AccountDAO {
         }
     }
 
-    // Lấy tài khoản theo email
+    // L?y t�i kho?n theo email
     public Account getAccountByEmail(String email) throws SQLException {
         String query = "SELECT * FROM Account WHERE email = ?";
         try (Connection conn = new DBContext().conn; PreparedStatement ps = conn.prepareStatement(query)) {
@@ -106,10 +107,10 @@ public class AccountDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     Account account = new Account();
-                    account.setId(rs.getInt("id"));
+                    account.setAccountId(rs.getInt("account_id"));
                     account.setUsername(rs.getString("username"));
                     account.setEmail(rs.getString("email"));
-                    account.setRoleID(rs.getInt("roleID"));
+                    account.setRoleId(rs.getInt("role_id"));
                     account.setStatus(rs.getString("status"));
                     return account;
                 }
@@ -121,19 +122,19 @@ public class AccountDAO {
     }
 
     public Account getUserById(int id) {
-        String sql = "SELECT * FROM Account WHERE id = ?";
+        String sql = "SELECT * FROM Account WHERE account_id = ?";
         try (Connection conn = new DBContext().conn; PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {  // Chỉ cần lấy một kết quả với id
+                if (rs.next()) {  // Ch? c?n l?y m?t k?t qu? v?i id
                     Account account = new Account();
-                    account.setId(rs.getInt("id"));
+                    account.setAccountId(rs.getInt("account_id"));
                     account.setUsername(rs.getString("username"));
                     account.setPassword(rs.getString("password"));
                     account.setEmail(rs.getString("email"));
                     account.setPhone(rs.getString("phone"));
                     account.setAddress(rs.getString("address"));
-                    account.setRoleID(rs.getInt("roleID"));
+                    account.setRoleId(rs.getInt("role_id"));
                     account.setStatus(rs.getString("status"));
                     return account;
                 }
@@ -142,12 +143,167 @@ public class AccountDAO {
             ex.printStackTrace();
         }
 
-        return null;  // Trả về null nếu không tìm thấy người dùng
+        return null;  // Tr? v? null n?u kh�ng t�m th?y ng??i d�ng
+    }
+
+    public int resetPassword(String newPassword, String email) {
+
+        String sql = "update Account set password = ?\n"
+                + "  where email = ?";
+
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setString(1, newPassword);
+            pre.setString(2, email);
+
+            return pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return -1;
+    }
+
+    // Li?t k� t?t c? t�i kho?n
+    public List<Account> listAll() {
+        List<Account> accounts = new ArrayList<>();
+        String query = "SELECT * FROM Account";
+        try (PreparedStatement ps = conn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Account account = new Account(
+                        rs.getInt("account_id"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getString("address"),
+                        rs.getInt("role_id"),
+                        rs.getString("status"));
+                accounts.add(account);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return accounts;
+    }
+
+    // Th�m t�i kho?n m?i
+    public boolean add(Account account) {
+        String query = "INSERT INTO Account (username, password, email, phone, address, role_id, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, account.getUsername());
+            ps.setString(2, account.getPassword());
+            ps.setString(3, account.getEmail());
+            ps.setString(4, account.getPhone());
+            ps.setString(5, account.getAddress());
+            ps.setInt(6, account.getRoleId());
+            ps.setString(7, account.getStatus());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // X�a t�i kho?n theo id
+    public boolean delete(int id) {
+        String query = "DELETE FROM Account WHERE account_id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, id);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // C?p nh?t t�i kho?n
+    public boolean update(Account account) {
+        String query = "UPDATE Account SET username = ?, password = ?, email = ?, phone = ?, address = ?, role_id = ?, status = ? WHERE account_id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, account.getUsername());
+            ps.setString(2, account.getPassword());
+            ps.setString(3, account.getEmail());
+            ps.setString(4, account.getPhone());
+            ps.setString(5, account.getAddress());
+            ps.setInt(6, account.getRoleId());
+            ps.setString(7, account.getStatus());
+            ps.setInt(8, account.getAccountId());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // T�m ki?m t�i kho?n theo t�n ng??i d�ng
+    public List<Account> search(String keyword) {
+        List<Account> accounts = new ArrayList<>();
+        String query = "SELECT * FROM Account WHERE username LIKE ?";
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, "%" + keyword + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Account account = new Account(
+                        rs.getInt("account_id"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getString("address"),
+                        rs.getInt("role_id"),
+                        rs.getString("status"));
+                accounts.add(account);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return accounts;
+    }
+
+    // L?y t�i kho?n theo id
+    public Account getAccountById(int id) {
+        String query = "SELECT * FROM Account WHERE account_id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Account(
+                        rs.getInt("account_id"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getString("address"),
+                        rs.getInt("role_id"),
+                        rs.getString("status"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public int updatePassword(String newPassword, String email) {
+        String sql = "UPDATE Account SET password = ? WHERE email = ?";
+
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setString(1, newPassword);
+            pre.setString(2, email);
+
+            return pre.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        }
     }
 
     public static void main(String[] args) {
         AccountDAO db = new AccountDAO();
-        Account d = db.login("customer@gmail.com", "123");
+        List<Account> d = db.listAll();
         System.out.println(d);
 
     }
