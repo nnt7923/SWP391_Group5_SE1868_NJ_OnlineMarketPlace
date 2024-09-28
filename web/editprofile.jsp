@@ -22,10 +22,10 @@
                     <label for="username">Full Name</label>
                     <input type="text" class="form-control" id="username" name="username" value="${account.username}" required>
                 </div>
-                <div class="form-group mt-3">
+<!--                <div class="form-group mt-3">
                     <label for="email">Email</label>
                     <input type="email" class="form-control" id="email" name="email" value="${account.email}" required>
-                </div>
+                </div>-->
                 <div class="form-group mt-3">
                     <label for="phone">Phone Number</label>
                     <input type="text" class="form-control" id="phone" name="phone" value="${account.phone}" required>
