@@ -150,6 +150,11 @@ public class AccountController extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/manageAccount.jsp");
         dispatcher.forward(request, response);
     }
+    
+    private void showDashboard(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.getRequestDispatcher("/admin/dashboard.jsp").forward(request, response);
+    }
 
     private void showAddAccountForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

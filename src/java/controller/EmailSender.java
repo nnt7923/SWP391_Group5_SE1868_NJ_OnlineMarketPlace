@@ -76,7 +76,7 @@ public class EmailSender extends HttpServlet {
             // check exist email
             for (Account account : list) {
                 if (email.equals(account.getEmail())) {
-                    session.setAttribute("message", "Email already exists!!!");
+                    request.setAttribute("mess", "Email already exists!!!");
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                     return;
                 }
