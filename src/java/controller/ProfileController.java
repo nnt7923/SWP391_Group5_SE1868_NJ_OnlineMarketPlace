@@ -26,7 +26,7 @@ public class ProfileController extends HttpServlet {
 
         if (account == null) {
             // Nếu không có thông tin account, chuyển hướng về trang đăng nhập
-            response.sendRedirect("login.jsp");
+            response.sendRedirect("./login.jsp");
         } else {
             // Đặt thông tin account vào request và chuyển tiếp đến trang profile.jsp
             request.setAttribute("account", account);

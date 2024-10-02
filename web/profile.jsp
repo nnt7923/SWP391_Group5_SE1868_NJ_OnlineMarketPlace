@@ -179,7 +179,7 @@
                         </div>
 
                         <div class="col-md-12 mt-5 text-center">
-                            <a href="updateprofile" class="btn btn-primary profile-button" style="color: white;">Edit Information</a>
+                            <a href="editprofile" class="btn btn-primary profile-button" style="color: white;">Edit Information</a>
                             <a href="changePassword.jsp" class="btn btn-primary profile-button" style="color: white;">Change Password</a>
                         </div>
                     </div>

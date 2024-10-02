@@ -72,13 +72,13 @@ public class LoginController extends HttpServlet {
             session.setAttribute("role", role);
 
             // ?i?u h??ng d?a tr?n vai tr?
-            if (role.getRoleName().equals("Admin")) {
+            if (role.getRole_name().equals("Admin")) {
                 response.sendRedirect("admin/dashboard.jsp");
-            } else if (role.getRoleName().equals("Seller")) {
+            } else if (role.getRole_name().equals("Seller")) {
                 response.sendRedirect("seller/dashboard.jsp");
-            } else if (role.getRoleName().equals("Customer")) {
+            } else if (role.getRole_name().equals("Customer")) {
                 response.sendRedirect("./home.jsp");
-            } else if (role.getRoleName().equals("Shipper")) {
+            } else if (role.getRole_name().equals("Shipper")) {
                 response.sendRedirect("shipper/dashboard.jsp");
             }
         } catch (IOException e) {
@@ -119,13 +119,13 @@ public class LoginController extends HttpServlet {
             session.setAttribute("role", role);
 
             // ?i?u h??ng d?a tr?n vai tr?
-            if (role.getRoleName().equals("Admin")) {
+            if (role.getRole_name().equals("Admin")) {
                 response.sendRedirect("admin/dashboard.jsp");
-            } else if (role.getRoleName().equals("Seller")) {
+            } else if (role.getRole_name().equals("Seller")) {
                 response.sendRedirect("seller/dashboard.jsp");
-            } else if (role.getRoleName().equals("Customer")) {
+            } else if (role.getRole_name().equals("Customer")) {
                 response.sendRedirect("./home.jsp");
-            } else if (role.getRoleName().equals("Shipper")) {
+            } else if (role.getRole_name().equals("Shipper")) {
                 response.sendRedirect("shipper/dashboard.jsp");
             }
         } else {

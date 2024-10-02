@@ -300,6 +300,20 @@ public class AccountDAO extends DBContext {
             return 0;
         }
     }
+    public void updateAccountInfo(int accountId, String username, String email, String phone, String address) {
+        String query = "UPDATE Account SET username = ?, email = ?, phone = ?, address = ? WHERE account_id = ?";
+        try (Connection conn = new DBContext().conn; PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, username);
+            ps.setString(2, email);
+            ps.setString(3, phone);
+            ps.setString(4, address);
+            ps.setInt(5, accountId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public static void main(String[] args) {
         AccountDAO db = new AccountDAO();
