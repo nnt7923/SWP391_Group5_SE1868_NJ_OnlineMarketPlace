@@ -58,7 +58,7 @@ public class VerifyCodeController extends HttpServlet {
 
                 boolean addAccount = dao.add(new Account(username, password, email, phone, address, role, "active"));
                 session.removeAttribute("authCode");
-                session.setAttribute("message", "Successful account registration");
+                session.setAttribute("successMessage", "Successful account registration");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             } else if (authCode.equals(code) && flag.equalsIgnoreCase("forgotPassword")) {
                 request.getRequestDispatcher("newPassword.jsp").forward(request, response);

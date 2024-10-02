@@ -86,6 +86,34 @@
     </head>
 
     <body>
+        <%
+            String successMessage = (String) session.getAttribute("successMessage");
+            if (successMessage != null) {
+                session.removeAttribute("successMessage"); // Clear after showing
+        %>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: '<%= successMessage %>',
+                imageUrl: 'img/siu.jpeg',
+                imageWidth: 400,
+                imageHeight: 200,
+                imageAlt: 'Custom image',
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown',
+                    backdrop: 'animate__animated animate__fadeIn'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp',
+                    backdrop: 'animate__animated animate__fadeOut'
+                },
+                confirmButtonText: 'OK'
+            });
+        </script>
+        <%
+            }
+        %>
 
         <!-- Spinner Start -->
         <div id="spinner" class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
